@@ -119,6 +119,7 @@ const List<Food> foods = [
     desc: '沂蒙山区传统主食，以玉米或小麦为原料，薄脆香甜',
     descKo: '이몽산 지역 전통 주식, 옥수수나 밀로 만든 얇고 바삭한 전통 전병',
     emoji: '🫓',
+    imageAsset: 'assets/jianbing.jpg',
   ),
   Food(
     name: '八宝豆豉',
@@ -126,6 +127,7 @@ const List<Food> foods = [
     desc: '临沂特产，以多种豆类及香料精制而成，味道鲜美独特',
     descKo: '임기 특산품, 여러 콩류와 향신료로 정성껏 만든 독특한 맛의 발효 음식',
     emoji: '🫘',
+    imageAsset: 'assets/douchi.jpg',
   ),
 ];
 
