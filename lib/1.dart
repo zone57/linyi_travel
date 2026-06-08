@@ -7,11 +7,12 @@ import 'package:flutter/material.dart';
 
 // 관광지 모델 / 景点模型
 class Attraction {
-  final String name;      // 景点名称 / 관광지 이름
-  final String nameKo;    // 韩文名称 / 한국어 이름
-  final String desc;      // 景点描述 / 설명
+  final String name;        // 景点名称 / 관광지 이름
+  final String nameKo;      // 韩文名称 / 한국어 이름
+  final String desc;        // 景点描述 / 설명
   final String descKo;
   final String emoji;
+  final String? imageAsset; // 图片路径 / 이미지 경로 (optional)
 
   const Attraction({
     required this.name,
@@ -19,6 +20,7 @@ class Attraction {
     required this.desc,
     required this.descKo,
     required this.emoji,
+    this.imageAsset,
   });
 }
 
@@ -29,6 +31,7 @@ class Food {
   final String desc;
   final String descKo;
   final String emoji;
+  final String? imageAsset; // 图片路径 / 이미지 경로 (optional)
 
   const Food({
     required this.name,
@@ -36,6 +39,7 @@ class Food {
     required this.desc,
     required this.descKo,
     required this.emoji,
+    this.imageAsset,
   });
 }
 
@@ -65,6 +69,7 @@ const List<Attraction> attractions = [
     desc: '山东第二高峰，素有"岱宗之亚"美称，自然风光绝美',
     descKo: '산동성 두 번째 높은 봉우리, 아름다운 자연경관으로 유명',
     emoji: '⛰️',
+    imageAsset: 'assets/mengshan.jpg',
   ),
   Attraction(
     name: '沂蒙红嫂纪念馆',
@@ -79,6 +84,7 @@ const List<Attraction> attractions = [
     desc: '明代古村落，竹林泉水相依，被誉为"中国最美乡村"之一',
     descKo: '명나라 시대 고대 마을, 대나무 숲과 샘물이 어우러진 아름다운 마을',
     emoji: '🎋',
+    imageAsset: 'assets/zhuquan.jpg',
   ),
   Attraction(
     name: '王羲之故居',
@@ -86,6 +92,7 @@ const List<Attraction> attractions = [
     desc: '书圣王羲之的出生地，展示书法艺术与历史文化',
     descKo: '서예의 성인 왕희지의 출생지, 서예 예술과 역사문화 전시',
     emoji: '✍️',
+    imageAsset: 'assets/wangxizhi.jpg',
   ),
 ];
 
@@ -96,6 +103,7 @@ const List<Food> foods = [
     desc: '临沂传统早餐，以骨头汤为底，加入面粉制成，浓郁香醇',
     descKo: '임기 전통 아침 식사, 사골 육수에 밀가루를 넣어 만든 진한 수프',
     emoji: '🍲',
+    imageAsset: 'assets/santangsantang.jpg',
   ),
   Food(
     name: '炒鸡',
@@ -103,6 +111,7 @@ const List<Food> foods = [
     desc: '临沂特色菜，用农家土鸡爆炒，香辣鲜嫩，名扬全国',
     descKo: '임기의 명물 요리, 농가 토종닭을 센 불에 볶은 매콤하고 부드러운 닭 요리',
     emoji: '🍗',
+    imageAsset: 'assets/chaoji.jpg',
   ),
   Food(
     name: '煎饼',
@@ -209,43 +218,56 @@ class LinyiPage extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
-              background: Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Color(0xFF1B5E20),
-                      Color(0xFF388E3C),
-                      Color(0xFF66BB6A),
-                    ],
+              background: Stack(
+                fit: StackFit.expand,
+                children: [
+                  // 封面图片 / 커버 이미지
+                  Image.asset(
+                    'assets/mengshan.jpg',
+                    fit: BoxFit.cover,
                   ),
-                ),
-                child: const Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(height: 40),
-                      Text('🏔️', style: TextStyle(fontSize: 64)),
-                      SizedBox(height: 8),
-                      Text(
-                        '沂蒙山水·革命圣地',
-                        style: TextStyle(
-                          color: Colors.white70,
-                          fontSize: 14,
-                          letterSpacing: 2,
-                        ),
+                  // 渐变遮罩 / 그라디언트 오버레이
+                  Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.transparent,
+                          Color(0xCC1B5E20),
+                        ],
                       ),
-                      Text(
-                        '이몽 산수 · 혁명 성지',
-                        style: TextStyle(
-                          color: Colors.white54,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
+                  const Align(
+                    alignment: Alignment.center,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 40),
+                        Text(
+                          '沂蒙山水·革命圣地',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 2,
+                            shadows: [Shadow(blurRadius: 8, color: Colors.black54)],
+                          ),
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          '이몽 산수 · 혁명 성지',
+                          style: TextStyle(
+                            color: Colors.white70,
+                            fontSize: 12,
+                            shadows: [Shadow(blurRadius: 6, color: Colors.black45)],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -455,59 +477,76 @@ class _AttractionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
-      child: Row(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
-              color: const Color(0xFFE8F5E9),
-              borderRadius: BorderRadius.circular(12),
+          // 景点图片（有图片时显示）/ 관광지 이미지 (있을 때만 표시)
+          if (attraction.imageAsset != null)
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.asset(
+                attraction.imageAsset!,
+                width: double.infinity,
+                height: 130,
+                fit: BoxFit.cover,
+              ),
             ),
-            child: Center(
-              child: Text(attraction.emoji,
-                  style: const TextStyle(fontSize: 22)),
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
+          if (attraction.imageAsset != null) const SizedBox(height: 8),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFE8F5E9),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Center(
+                  child: Text(attraction.emoji,
+                      style: const TextStyle(fontSize: 22)),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      attraction.name,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                        color: Color(0xFF212121),
-                      ),
+                    Row(
+                      children: [
+                        Text(
+                          attraction.name,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            color: Color(0xFF212121),
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          attraction.nameKo,
+                          style: const TextStyle(
+                            fontSize: 11,
+                            color: Color(0xFF9E9E9E),
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: 6),
+                    const SizedBox(height: 2),
                     Text(
-                      attraction.nameKo,
+                      attraction.desc,
                       style: const TextStyle(
-                        fontSize: 11,
-                        color: Color(0xFF9E9E9E),
-                      ),
+                          fontSize: 12, color: Color(0xFF757575), height: 1.5),
+                    ),
+                    Text(
+                      attraction.descKo,
+                      style: const TextStyle(
+                          fontSize: 11, color: Color(0xFFBDBDBD), height: 1.4),
                     ),
                   ],
                 ),
-                const SizedBox(height: 2),
-                Text(
-                  attraction.desc,
-                  style: const TextStyle(
-                      fontSize: 12, color: Color(0xFF757575), height: 1.5),
-                ),
-                Text(
-                  attraction.descKo,
-                  style: const TextStyle(
-                      fontSize: 11, color: Color(0xFFBDBDBD), height: 1.4),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),
@@ -524,7 +563,6 @@ class _FoodCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: const Color(0xFFFFF8E1),
         borderRadius: BorderRadius.circular(12),
@@ -533,39 +571,58 @@ class _FoodCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Text(food.emoji, style: const TextStyle(fontSize: 24)),
-              const SizedBox(width: 6),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          // 美食图片（有图片时显示）/ 음식 이미지 (있을 때만 표시)
+          if (food.imageAsset != null)
+            ClipRRect(
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(11)),
+              child: Image.asset(
+                food.imageAsset!,
+                width: double.infinity,
+                height: 80,
+                fit: BoxFit.cover,
+              ),
+            ),
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
                   children: [
-                    Text(
-                      food.name,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 13,
-                        color: Color(0xFF212121),
+                    Text(food.emoji, style: const TextStyle(fontSize: 20)),
+                    const SizedBox(width: 6),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            food.name,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13,
+                              color: Color(0xFF212121),
+                            ),
+                          ),
+                          Text(
+                            food.nameKo,
+                            style: const TextStyle(
+                                fontSize: 10, color: Color(0xFF9E9E9E)),
+                          ),
+                        ],
                       ),
-                    ),
-                    Text(
-                      food.nameKo,
-                      style: const TextStyle(
-                          fontSize: 10, color: Color(0xFF9E9E9E)),
                     ),
                   ],
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 6),
-          Text(
-            food.desc,
-            style: const TextStyle(
-                fontSize: 11, color: Color(0xFF757575), height: 1.5),
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
+                const SizedBox(height: 4),
+                Text(
+                  food.desc,
+                  style: const TextStyle(
+                      fontSize: 11, color: Color(0xFF757575), height: 1.5),
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
           ),
         ],
       ),
