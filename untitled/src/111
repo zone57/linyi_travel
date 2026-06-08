@@ -1,0 +1,171 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const LinyiTravelApp());
+}
+
+class LinyiTravelApp extends StatelessWidget {
+  const LinyiTravelApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: '临沂旅游推荐',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const HomePage(),
+    );
+  }
+}
+
+class TouristSpot {
+  final String name;
+  final String image;
+  final String description;
+  final String location;
+
+  TouristSpot({
+    required this.name,
+    required this.image,
+    required this.description,
+    required this.location,
+  });
+}
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  final List<TouristSpot> spots = const [
+    TouristSpot(
+      name: '沂蒙山',
+      image:
+          'https://upload.wikimedia.org/wikipedia/commons/7/75/Mountain.jpg',
+      description: '沂蒙山是山东著名风景区，以自然风光和红色文化闻名。',
+      location: '山东省临沂市',
+    ),
+    TouristSpot(
+      name: '王羲之故居',
+      image:
+          'https://upload.wikimedia.org/wikipedia/commons/3/35/Chinese_temple.jpg',
+      description: '书圣王羲之出生地，是临沂重要历史文化景点。',
+      location: '兰山区洗砚池街',
+    ),
+    TouristSpot(
+      name: '竹泉村',
+      image:
+          'https://upload.wikimedia.org/wikipedia/commons/8/82/Village.jpg',
+      description: '国家4A级景区，拥有竹林和泉水景观。',
+      location: '沂南县',
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('临沂旅游推荐'),
+      ),
+      body: ListView(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(16),
+            color: Colors.blue.shade50,
+            child: const Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '欢迎来到山东临沂',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  '临沂是中国优秀旅游城市，拥有丰富的自然风景和历史文化资源。',
+                ),
+              ],
+            ),
+          ),
+          ...spots.map(
+            (spot) => Card(
+              margin: const EdgeInsets.all(10),
+              child: ListTile(
+                leading: Image.network(
+                  spot.image,
+                  width: 60,
+                  fit: BoxFit.cover,
+                ),
+                title: Text(spot.name),
+                subtitle: Text(spot.location),
+                trailing: const Icon(Icons.arrow_forward_ios),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => DetailPage(spot: spot),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class DetailPage extends StatelessWidget {
+  final TouristSpot spot;
+
+  const DetailPage({super.key, required this.spot});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(spot.name),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Image.network(
+              spot.image,
+              width: double.infinity,
+              height: 250,
+              fit: BoxFit.cover,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    spot.name,
+                    style: const TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    "地址：${spot.location}",
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                  const SizedBox(height: 15),
+                  Text(
+                    spot.description,
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
