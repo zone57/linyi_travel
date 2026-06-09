@@ -325,127 +325,87 @@ class _IntroPage extends StatelessWidget {
 
                 const SizedBox(height: 16),
 
-                // 基本信息：数据一览 / 기본 정보: 데이터 한눈에 보기
+                // ── 数据亮点：4格彩色数字卡 / 데이터 하이라이트: 4칸 컬러 숫자 카드
                 _SectionTitle(zh: '基本信息', ko: '기본 정보'),
-                const SizedBox(height: 8),
-                _InfoCard(
-                  child: GridView.count(
-                    crossAxisCount: 2,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    childAspectRatio: 3,
-                    children: const [
-                      _StatItem(label: '户籍人口 · 등록 인구', value: '1200万'),
-                      _StatItem(label: '面积 · 면적',           value: '1.72万km²'),
-                      _StatItem(label: '建城史 · 역사',         value: '3000+年'),
-                      _StatItem(label: '景区 · 관광지',         value: '100+处'),
-                    ],
-                  ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    _BigStatCard(value: '1200万', labelZh: '户籍人口', labelKo: '등록 인구',
+                        icon: '👥', color: const Color(0xFF1976D2)),
+                    const SizedBox(width: 10),
+                    _BigStatCard(value: '1.72万', labelZh: '面积km²', labelKo: '면적',
+                        icon: '🗺️', color: const Color(0xFF388E3C)),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    _BigStatCard(value: '3000+', labelZh: '建城史(年)', labelKo: '역사(년)',
+                        icon: '🏯', color: const Color(0xFFF57F17)),
+                    const SizedBox(width: 10),
+                    _BigStatCard(value: '6862亿', labelZh: 'GDP(2025)', labelKo: 'GDP',
+                        icon: '📈', color: const Color(0xFF7B1FA2)),
+                  ],
                 ),
 
-                const SizedBox(height: 16),
+                const SizedBox(height: 20),
 
-                // 城市名片：荣誉称号 / 도시 명함: 명예 칭호
+                // ── 城市名片：横向滚动荣誉标签 / 도시 명함: 가로 스크롤 명예 태그
                 _SectionTitle(zh: '城市名片', ko: '도시 명함'),
-                const SizedBox(height: 8),
-                _InfoCard(
-                  child: Column(
+                const SizedBox(height: 10),
+                SizedBox(
+                  height: 90,  // 增加高度容纳中韩双语 / 높이 늘려 이중언어 수용
+                  child: ListView(
+                    scrollDirection: Axis.horizontal, // 横向滚动 / 가로 스크롤
                     children: const [
-                      // 城市称号 / 도시 칭호
-                      _DetailRow(
-                        icon: '🏆',
-                        labelZh: '城市称号',   labelKo: '도시 칭호',
-                        valueZh: '中国市场名城 · 中国物流之都 · 中国书法名城',
-                        valueKo: '중국 시장 명성 · 중국 물류 수도 · 중국 서예 명성',
-                      ),
-                      _Divider(),
-                      // 城市荣誉 / 도시 영예
-                      _DetailRow(
-                        icon: '🎖️',
-                        labelZh: '城市荣誉',   labelKo: '도시 영예',
-                        valueZh: '全国文明城市 · 双拥模范城市 · 国家园林城市',
-                        valueKo: '전국 문명 도시 · 쌍옹 모범 도시 · 국가 원림 도시',
-                      ),
+                      _HonorChip(icon: '🏆', zh: '中国物流之都',   ko: '중국 물류 수도'),
+                      _HonorChip(icon: '🖊️', zh: '中国书法名城',   ko: '중국 서예 명성'),
+                      _HonorChip(icon: '🏪', zh: '中国市场名城',   ko: '중국 시장 명성'),
+                      _HonorChip(icon: '🌳', zh: '国家园林城市',   ko: '국가 원림 도시'),
+                      _HonorChip(icon: '⭐', zh: '全国文明城市',   ko: '전국 문명 도시'),
                     ],
                   ),
                 ),
 
-                const SizedBox(height: 16),
+                const SizedBox(height: 20),
 
-                // 发展实力：经济与交通 / 발전 역량: 경제와 교통
+                // ── 发展实力：三项横向指标条 / 발전 역량: 3개 가로 지표 바
                 _SectionTitle(zh: '发展实力', ko: '발전 역량'),
-                const SizedBox(height: 8),
-                _InfoCard(
-                  child: Column(
-                    children: const [
-                      // GDP / GDP
-                      _DetailRow(
-                        icon: '📈',
-                        labelZh: 'GDP（2025）',  labelKo: 'GDP (2025)',
-                        valueZh: '6862.2亿元，增长5.4%',
-                        valueKo: '6862.2억 위안, 5.4% 성장',
-                      ),
-                      _Divider(),
-                      // 物流 / 물류
-                      _DetailRow(
-                        icon: '🚚',
-                        labelZh: '物流之都',     labelKo: '물류 수도',
-                        valueZh: '物流额突破1万亿元，"南有义乌，北有临沂"',
-                        valueKo: '물류액 1조 위안 돌파, "남엔 이우, 북엔 임기"',
-                      ),
-                      _Divider(),
-                      // 交通 / 교통
-                      _DetailRow(
-                        icon: '✈️',
-                        labelZh: '交通枢纽',     labelKo: '교통 허브',
-                        valueZh: '鲁南高铁 · 6条高速 · 启阳国际机场（国内40城 + 国际6城）',
-                        valueKo: '루난 고속철 · 고속도로 6개 · 치양 국제공항 (국내 40개 + 국제 6개 도시)',
-                      ),
-                    ],
-                  ),
+                const SizedBox(height: 10),
+                _StrengthCard(
+                  items: const [
+                    _StrengthItem(icon: '🚚', zh: '物流之都', ko: '물류 수도',
+                        detail: '物流额突破1万亿元\n"南有义乌，北有临沂"',
+                        detailKo: '물류액 1조 위안 돌파\n"남엔 이우, 북엔 임기"'),
+                    _StrengthItem(icon: '✈️', zh: '交通枢纽', ko: '교통 허브',
+                        detail: '鲁南高铁·6条高速\n启阳国际机场',
+                        detailKo: '루난 고속철·고속도로 6개\n치양 국제공항'),
+                    _StrengthItem(icon: '📦', zh: '商贸中心', ko: '상업 중심',
+                        detail: '配载线路覆盖全国\n所有县级以上城市',
+                        detailKo: '전국 모든 현급 이상\n도시에 노선 연결'),
+                  ],
                 ),
 
-                const SizedBox(height: 16),
+                const SizedBox(height: 20),
 
-                // 人文底蕴 / 인문 역사
+                // ── 人文底蕴：时间轴风格 / 인문 역사: 타임라인 스타일
                 _SectionTitle(zh: '人文底蕴', ko: '인문 역사'),
-                const SizedBox(height: 8),
-                _InfoCard(
-                  child: Column(
-                    children: const [
-                      // 历史名人 / 역사 명인
-                      _DetailRow(
-                        icon: '🖋️',
-                        labelZh: '历史名人',     labelKo: '역사 명인',
-                        valueZh: '王羲之（书圣）· 诸葛亮（智圣）· 曾子（宗圣）· 颜真卿 · 刘洪',
-                        valueKo: '왕희지(서성) · 제갈량(지성) · 증자(종성) · 안진경 · 유홍',
-                      ),
-                      _Divider(),
-                      // 革命精神 / 혁명 정신
-                      _DetailRow(
-                        icon: '🌟',
-                        labelZh: '革命圣地',     labelKo: '혁명 성지',
-                        valueZh: '沂蒙精神发源地，党和国家的宝贵精神财富',
-                        valueKo: '이몽 정신 발원지, 당과 국가의 소중한 정신적 재산',
-                      ),
-                      _Divider(),
-                      // 生态水城 / 생태 수도
-                      _DetailRow(
-                        icon: '💧',
-                        labelZh: '生态水城',     labelKo: '생태 수도시',
-                        valueZh: '八水绕城，"不是江南，胜似江南"；橡胶坝长1247m创吉尼斯纪录',
-                        valueKo: '여덟 강이 도시를 둘러, "강남은 아니지만 강남보다 아름답다"; 고무댐 1247m 기네스 기록',
-                      ),
-                      _Divider(),
-                      // 矿产资源 / 광물 자원
-                      _DetailRow(
-                        icon: '💎',
-                        labelZh: '矿产资源',     labelKo: '광물 자원',
-                        valueZh: '白云岩储量全国第一，金刚石储量全国第二',
-                        valueKo: '백운암 매장량 전국 1위, 다이아몬드 매장량 전국 2위',
-                      ),
-                    ],
-                  ),
+                const SizedBox(height: 10),
+                _CultureCard(
+                  items: const [
+                    _CultureItem(icon: '🖋️', zh: '历史名人', ko: '역사 명인',
+                        content: '王羲之(书圣) · 诸葛亮(智圣)\n曾子(宗圣) · 颜真卿 · 刘洪',
+                        contentKo: '왕희지(서성) · 제갈량(지성)\n증자(종성) · 안진경 · 유홍'),
+                    _CultureItem(icon: '🌟', zh: '革命圣地', ko: '혁명 성지',
+                        content: '沂蒙精神发源地\n党和国家的宝贵精神财富',
+                        contentKo: '이몽 정신 발원지\n당과 국가의 소중한 정신적 재산'),
+                    _CultureItem(icon: '💧', zh: '生态水城', ko: '생태 수도시',
+                        content: '八水绕城 "不是江南，胜似江南"\n橡胶坝1247m · 吉尼斯世界纪录',
+                        contentKo: '여덟 강이 도시를 둘러싸\n고무댐 1247m 기네스 기록'),
+                    _CultureItem(icon: '💎', zh: '矿产资源', ko: '광물 자원',
+                        content: '白云岩储量全国第一\n金刚石储量全国第二',
+                        contentKo: '백운암 매장량 전국 1위\n다이아몬드 매장량 전국 2위'),
+                  ],
                 ),
 
                 const SizedBox(height: 32),
@@ -877,68 +837,269 @@ class _TourStepTile extends StatelessWidget {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // 详情行组件（图标 + 中韩双语标签 + 双语内容）
 // 상세 행 위젯 (아이콘 + 중한 이중언어 라벨 + 이중언어 내용)
+
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 基本信息：彩色大数字卡 / 기본 정보: 컬러 큰 숫자 카드
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-class _DetailRow extends StatelessWidget {
-  final String icon;      // 图标 / 아이콘
-  final String labelZh;   // 中文标签 / 중국어 라벨
-  final String labelKo;   // 韩文标签 / 한국어 라벨
-  final String valueZh;   // 中文内容 / 중국어 내용
-  final String valueKo;   // 韩文内容 / 한국어 내용
+class _BigStatCard extends StatelessWidget {
+  final String value;    // 数值 / 수치
+  final String labelZh;  // 中文标签 / 중국어 라벨
+  final String labelKo;  // 韩文标签 / 한국어 라벨
+  final String icon;     // 图标 / 아이콘
+  final Color color;     // 主题色 / 테마 색상
 
-  const _DetailRow({
-    required this.icon,
-    required this.labelZh, required this.labelKo,
-    required this.valueZh, required this.valueKo,
+  const _BigStatCard({
+    required this.value, required this.labelZh,
+    required this.labelKo, required this.icon, required this.color,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // 图标 / 아이콘
-          Text(icon, style: const TextStyle(fontSize: 18)),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Column(
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: color.withOpacity(0.18)),
+          boxShadow: [
+            BoxShadow(color: color.withOpacity(0.08), blurRadius: 10, offset: const Offset(0, 3)),
+          ],
+        ),
+        child: Row(
+          children: [
+            // 彩色图标背景圆 / 컬러 아이콘 배경 원
+            Container(
+              width: 42, height: 42,
+              decoration: BoxDecoration(
+                color: color.withOpacity(0.12),
+                shape: BoxShape.circle,
+              ),
+              child: Center(child: Text(icon, style: const TextStyle(fontSize: 20))),
+            ),
+            const SizedBox(width: 10),
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // 标签（中韩双语横排）/ 라벨 (중한 이중언어 가로 배치)
-                Row(
-                  children: [
-                    Text(labelZh,
-                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold,
-                            color: AppColors.primary)),
-                    const SizedBox(width: 4),
-                    Text('· $labelKo',
-                        style: const TextStyle(fontSize: 11, color: Color(0xFF66BB6A))),
-                  ],
-                ),
-                const SizedBox(height: 3),
-                // 中文内容 / 중국어 내용
-                Text(valueZh,
-                    style: const TextStyle(fontSize: 12, color: AppColors.textMain, height: 1.5)),
-                // 韩文内容 / 한국어 내용
-                Text(valueKo,
-                    style: const TextStyle(fontSize: 11, color: AppColors.textSub, height: 1.4)),
+                // 大数字 / 큰 숫자
+                Text(value,
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: color)),
+                // 中文标签 / 중국어 라벨
+                Text(labelZh,
+                    style: const TextStyle(fontSize: 11, color: AppColors.textSub)),
+                // 韩文标签 / 한국어 라벨
+                Text(labelKo,
+                    style: const TextStyle(fontSize: 10, color: AppColors.textHint)),
               ],
             ),
-          ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 城市名片：横向滚动荣誉标签 / 도시 명함: 가로 스크롤 명예 태그
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+class _HonorChip extends StatelessWidget {
+  final String icon;  // 图标 / 아이콘
+  final String zh;    // 中文 / 중국어
+  final String ko;    // 韩文 / 한국어
+
+  const _HonorChip({required this.icon, required this.zh, required this.ko});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(right: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: const Color(0xFFA5D6A7)),
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 6)],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(icon, style: const TextStyle(fontSize: 18)),
+          const SizedBox(height: 2),
+          // 中文标签 / 중국어 라벨
+          Text(zh, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600,
+              color: AppColors.primary)),
+          // 韩文标签 / 한국어 라벨
+          Text(ko, style: const TextStyle(fontSize: 9, color: AppColors.textSub)),
         ],
       ),
     );
   }
 }
 
-// 分隔线（用于详情行之间）/ 구분선 (상세 행 사이에 사용)
-class _Divider extends StatelessWidget {
-  const _Divider();
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 发展实力：三列卡片 / 발전 역량: 3열 카드
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+// 发展实力数据项 / 발전 역량 데이터 항목
+class _StrengthItem {
+  final String icon;
+  final String zh;       // 中文标题 / 중국어 제목
+  final String ko;       // 韩文标题 / 한국어 제목
+  final String detail;   // 中文详情 / 중국어 상세
+  final String detailKo; // 韩文详情 / 한국어 상세
+  const _StrengthItem({
+    required this.icon, required this.zh, required this.ko,
+    required this.detail, required this.detailKo,
+  });
+}
+
+// 发展实力卡片组 / 발전 역량 카드 그룹
+class _StrengthCard extends StatelessWidget {
+  final List<_StrengthItem> items; // 数据项列表 / 데이터 항목 목록
+  const _StrengthCard({required this.items});
 
   @override
   Widget build(BuildContext context) {
-    return const Divider(height: 1, thickness: 0.5, color: AppColors.border);
+    return Row(
+      children: items.asMap().entries.map((e) {
+        final i = e.key;
+        final item = e.value;
+        // 三种颜色循环 / 3가지 색상 순환
+        final colors = [
+          const Color(0xFF1976D2), // 蓝 / 파랑
+          const Color(0xFF388E3C), // 绿 / 초록
+          const Color(0xFFF57F17), // 橙 / 오렌지
+        ];
+        final c = colors[i % colors.length];
+        return Expanded(
+          child: Container(
+            margin: EdgeInsets.only(right: i < items.length - 1 ? 8 : 0),
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: c.withOpacity(0.2)),
+              boxShadow: [BoxShadow(color: c.withOpacity(0.07), blurRadius: 8)],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // 图标 + 标题（中韩双语）/ 아이콘 + 제목 (중한 이중언어)
+                Text(item.icon, style: const TextStyle(fontSize: 22)),
+                const SizedBox(height: 6),
+                Text(item.zh,
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: c)),
+                Text(item.ko,
+                    style: const TextStyle(fontSize: 10, color: AppColors.textSub)),
+                const SizedBox(height: 6),
+                // 详情（中韩双语）/ 상세 (중한 이중언어)
+                Text(item.detail,
+                    style: const TextStyle(fontSize: 11, color: AppColors.textMain, height: 1.5)),
+                Text(item.detailKo,
+                    style: const TextStyle(fontSize: 10, color: AppColors.textHint, height: 1.4)),
+              ],
+            ),
+          ),
+        );
+      }).toList(),
+    );
+  }
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 人文底蕴：左边框时间轴风格 / 인문 역사: 왼쪽 테두리 타임라인 스타일
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+// 人文底蕴数据项 / 인문 역사 데이터 항목
+class _CultureItem {
+  final String icon;
+  final String zh;        // 中文标题 / 중국어 제목
+  final String ko;        // 韩文标题 / 한국어 제목
+  final String content;   // 中文内容 / 중국어 내용
+  final String contentKo; // 韩文内容 / 한국어 내용
+  const _CultureItem({
+    required this.icon, required this.zh, required this.ko,
+    required this.content, required this.contentKo,
+  });
+}
+
+// 人文底蕴卡片组 / 인문 역사 카드 그룹
+class _CultureCard extends StatelessWidget {
+  final List<_CultureItem> items; // 数据项列表 / 데이터 항목 목록
+  const _CultureCard({required this.items});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: AppColors.border),
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 8)],
+      ),
+      child: Column(
+        children: items.asMap().entries.map((e) {
+          final i = e.key;
+          final item = e.value;
+          final isLast = i == items.length - 1; // 是否最后一项 / 마지막 항목 여부
+          return Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // 左侧彩色圆形图标 / 왼쪽 컬러 원형 아이콘
+                    Container(
+                      width: 38, height: 38,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFE8F5E9),
+                        shape: BoxShape.circle,
+                        border: Border.all(color: const Color(0xFFA5D6A7)),
+                      ),
+                      child: Center(child: Text(item.icon, style: const TextStyle(fontSize: 18))),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // 标题（中韩双语）/ 제목 (중한 이중언어)
+                          Row(
+                            children: [
+                              Text(item.zh,
+                                  style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold,
+                                      color: AppColors.primary)),
+                              const SizedBox(width: 5),
+                              Text('· ${item.ko}',
+                                  style: const TextStyle(fontSize: 11, color: Color(0xFF66BB6A))),
+                            ],
+                          ),
+                          const SizedBox(height: 4),
+                          // 中文内容 / 중국어 내용
+                          Text(item.content,
+                              style: const TextStyle(fontSize: 12, color: AppColors.textMain,
+                                  height: 1.5)),
+                          // 韩文内容 / 한국어 내용
+                          Text(item.contentKo,
+                              style: const TextStyle(fontSize: 11, color: AppColors.textSub,
+                                  height: 1.4)),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              // 分隔线（最后一项不显示）/ 구분선 (마지막 항목에는 미표시)
+              if (!isLast)
+                const Divider(height: 1, thickness: 0.5, indent: 64, color: AppColors.border),
+            ],
+          );
+        }).toList(),
+      ),
+    );
   }
 }
