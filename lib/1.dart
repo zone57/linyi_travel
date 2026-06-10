@@ -333,17 +333,17 @@ class _IntroPage extends StatelessWidget {
                     _BigStatCard(value: '1200万', labelZh: '户籍人口', labelKo: '등록 인구',
                         icon: '👥', color: const Color(0xFF1976D2)),
                     const SizedBox(width: 10),
-                    _BigStatCard(value: '1.72万', labelZh: '面积km²', labelKo: '면적',
+                    _BigStatCard(value: '1.72万', labelZh: '面积 km²', labelKo: '면적 km²',
                         icon: '🗺️', color: const Color(0xFF388E3C)),
                   ],
                 ),
                 const SizedBox(height: 10),
                 Row(
                   children: [
-                    _BigStatCard(value: '3000+', labelZh: '建城史(年)', labelKo: '역사(년)',
+                    _BigStatCard(value: '3000+', labelZh: '建城史 (年)', labelKo: '역사 (년)',
                         icon: '🏯', color: const Color(0xFFF57F17)),
                     const SizedBox(width: 10),
-                    _BigStatCard(value: '6862亿', labelZh: 'GDP(2025)', labelKo: 'GDP',
+                    _BigStatCard(value: '6862亿', labelZh: 'GDP (2025)', labelKo: 'GDP (2025)',
                         icon: '📈', color: const Color(0xFF7B1FA2)),
                   ],
                 ),
@@ -376,7 +376,7 @@ class _IntroPage extends StatelessWidget {
                   items: const [
                     _StrengthItem(icon: '🚚', zh: '物流之都', ko: '물류 수도',
                         detail: '物流额突破1万亿元\n"南有义乌，北有临沂"',
-                        detailKo: '물류액 1조 위안 돌파\n"남엔 이우, 북엔 임기"'),
+                        detailKo: '물류액 1조(万亿) 위안 돌파\n"남엔 이우, 북엔 임기"'),
                     _StrengthItem(icon: '✈️', zh: '交通枢纽', ko: '교통 허브',
                         detail: '鲁南高铁·6条高速\n启阳国际机场',
                         detailKo: '루난 고속철·고속도로 6개\n치양 국제공항'),
@@ -406,6 +406,64 @@ class _IntroPage extends StatelessWidget {
                         content: '白云岩储量全国第一\n金刚石储量全国第二',
                         contentKo: '백운암 매장량 전국 1위\n다이아몬드 매장량 전국 2위'),
                   ],
+                ),
+
+                const SizedBox(height: 20),
+
+                // ── AI使用内容 / AI 활용 내용 ─────────────
+                _SectionTitle(zh: 'AI 使用内容', ko: 'AI 활용 내용'),
+                const SizedBox(height: 10),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    // 渐变背景 / 그라디언트 배경
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFFE8F5E9), Color(0xFFF1F8E9)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: const Color(0xFFA5D6A7)),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // 标题行 / 제목 행
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(6),
+                            decoration: BoxDecoration(
+                              color: AppColors.primary,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: const Text('🤖', style: TextStyle(fontSize: 16)),
+                          ),
+                          const SizedBox(width: 10),
+                          const Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('AI 使用内容',
+                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold,
+                                      color: AppColors.primary)),
+                              Text('AI 활용 내용',
+                                  style: TextStyle(fontSize: 11, color: Color(0xFF66BB6A))),
+                            ],
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+                      const Divider(color: Color(0xFFA5D6A7), height: 1),
+                      const SizedBox(height: 12),
+                      // AI使用项列表（中韩双语）/ AI 활용 항목 목록 (중한 이중언어)
+                      _AiItem(zh: '景点介绍文案润色与翻译（中↔韩）', ko: '관광지 소개 문구 다듬기 및 번역 (중↔한)'),
+                      _AiItem(zh: '美食描述内容生成',                 ko: '음식 설명 내용 생성'),
+                      _AiItem(zh: '城市基本信息整理与双语翻译',       ko: '도시 기본 정보 정리 및 이중언어 번역'),
+                      _AiItem(zh: '推荐旅行路线规划建议',             ko: '추천 여행 코스 기획 제안'),
+                      _AiItem(zh: 'Flutter 代码结构设计与优化',       ko: 'Flutter 코드 구조 설계 및 최적화'),
+                    ],
+                  ),
                 ),
 
                 const SizedBox(height: 32),
@@ -646,7 +704,7 @@ class _AttractionCard extends StatelessWidget {
           ClipRRect(
             borderRadius: const BorderRadius.vertical(top: Radius.circular(13)),
             child: attraction.imageAsset != null
-                ? Image.asset(attraction.imageAsset!, width: double.infinity, height: 120, fit: BoxFit.cover)
+                ? Image.asset(attraction.imageAsset!, width: double.infinity, height: 160, fit: BoxFit.cover)
                 : Container(
               width: double.infinity, height: 120,
               decoration: const BoxDecoration(
@@ -891,7 +949,7 @@ class _BigStatCard extends StatelessWidget {
                     style: const TextStyle(fontSize: 11, color: AppColors.textSub)),
                 // 韩文标签 / 한국어 라벨
                 Text(labelKo,
-                    style: const TextStyle(fontSize: 10, color: AppColors.textHint)),
+                    style: const TextStyle(fontSize: 11, color: AppColors.textSub)),
               ],
             ),
           ],
@@ -1099,6 +1157,53 @@ class _CultureCard extends StatelessWidget {
             ],
           );
         }).toList(),
+      ),
+    );
+  }
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// AI使用内容列表项 / AI 활용 내용 목록 항목
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+class _AiItem extends StatelessWidget {
+  final String zh; // 中文说明 / 중국어 설명
+  final String ko; // 韩文说明 / 한국어 설명
+  const _AiItem({required this.zh, required this.ko});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // 绿色圆点 / 녹색 점
+          Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: Container(
+              width: 7, height: 7,
+              decoration: const BoxDecoration(
+                color: AppColors.primary,
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // 中文说明 / 중국어 설명
+                Text(zh, style: const TextStyle(fontSize: 12,
+                    color: AppColors.textMain, height: 1.5)),
+                // 韩文说明 / 한국어 설명
+                Text(ko, style: const TextStyle(fontSize: 11,
+                    color: AppColors.textSub, height: 1.4)),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
