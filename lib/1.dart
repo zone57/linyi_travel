@@ -1,3 +1,36 @@
+// ╔══════════════════════════════════════════════════════════════╗
+// ║   临沂旅行推荐应用 — 临沂页面                                      ║
+// ║   임기 여행 추천 앱 — 임기 페이지                                   ║
+// ╠══════════════════════════════════════════════════════════════╣
+// ║  文件说明 / 파일 설명                                              ║
+// ║  本文件是临沂家乡旅行推荐页面的完整代码。                              ║
+// ║  이 파일은 임기 고향 여행 추천 페이지의 전체 코드입니다.                 ║
+// ╠══════════════════════════════════════════════════════════════╣
+// ║  页面结构 / 페이지 구조                                             ║
+// ║  ① 家乡介绍页  고향 소개 페이지  — 城市概况、基本信息、AI使用内容        ║
+// ║  ② 旅游景点页  관광지 페이지     — 4个景点卡片列表                    ║
+// ║  ③ 代表美食页  대표 음식 페이지  — 4种美食卡片列表                    ║
+// ║  ④ 推荐路线页  추천 코스 페이지  — 6节点当日游时间轴                  ║
+// ╠══════════════════════════════════════════════════════════════╣
+// ║  代码结构 / 코드 구조                                              ║
+// ║  AppColors        — 全局颜色常量 / 전역 색상 상수                   ║
+// ║  Attraction/Food/TourStep — 数据模型 / 데이터 모델               ║
+// ║  attractions/foods/tourSteps — 静态数据 / 정적 데이터             ║
+// ║  LinyiPage        — 根组件，管理底部导航 / 루트 위젯, 탭 관리         ║
+// ║  _IntroPage       — 家乡介绍页 / 고향 소개 페이지                  ║
+// ║  _AttractionsPage — 景点列表页 / 관광지 목록 페이지                 ║
+// ║  _FoodsPage       — 美食列表页 / 음식 목록 페이지                  ║
+// ║  _TourRoutePage   — 推荐路线页 / 추천 코스 페이지                  ║
+// ║  _SectionTitle/_InfoCard/_Tag 等 — 公共UI组件 / 공통 UI 위젯    ║
+// ╠══════════════════════════════════════════════════════════════╣
+// ║  使用方法 / 사용 방법                                              ║
+// ║  在 main.dart 中 import 本文件，然后使用 LinyiPage() 即可          ║
+// ║  main.dart에서 이 파일을 import하고 LinyiPage()를 사용하면 됩니다   ║
+// ║                                                              ║
+// ║    import '1.dart';                                          ║
+// ║    home: const LinyiPage(),                                  ║
+// ╚══════════════════════════════════════════════════════════════╝
+
 // 临沂旅行推荐应用 — 主页面（四页导航版）
 // 임기 여행 추천 앱 — 메인 페이지 (4페이지 탭 네비게이션)
 // lib/1.dart
@@ -8,17 +41,48 @@ import 'package:flutter/material.dart';
 // 全局主题色 / 전역 테마 색상
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+// ──────────────────────────────────────────
+// 全局颜色常量类 / 전역 색상 상수 클래스
+// 作用：统一管理应用中所有颜色，修改颜色只需改这里
+// 역할：앱의 모든 색상을 통합 관리, 색상 변경 시 여기만 수정
+// ──────────────────────────────────────────
 class AppColors {
-  static const Color primary   = Color(0xFF2E7D32); // 蒙山绿 / 몽산 녹색
-  static const Color accent    = Color(0xFFF57F17); // 暖橙色 / 따뜻한 오렌지
-  static const Color bg        = Color(0xFFF5F5F5); // 页面背景 / 페이지 배경
-  static const Color card      = Colors.white;       // 卡片背景 / 카드 배경
-  static const Color textMain  = Color(0xFF212121); // 主文字 / 주 텍스트
-  static const Color textSub   = Color(0xFF757575); // 副文字 / 보조 텍스트
-  static const Color textHint  = Color(0xFFBDBDBD); // 提示文字 / 힌트 텍스트
-  static const Color border    = Color(0xFFE0E0E0); // 边框色 / 테두리색
-  static const Color heroStart = Color(0xFF1B5E20); // 封面渐变起点 / 커버 그라디언트 시작
-  static const Color heroEnd   = Color(0xFF66BB6A); // 封面渐变终点 / 커버 그라디언트 끝
+  // 主色调：取自蒙山绿色，代表临沂的山水特色
+  // 기본 색상: 몽산 녹색에서 가져옴, 임기의 산수 특색을 표현
+  static const Color primary   = Color(0xFF2E7D32);
+
+  // 强调色：暖橙色，用于时间轴时间、数字高亮等
+  // 강조 색상: 따뜻한 오렌지색, 타임라인 시간·숫자 하이라이트 등에 사용
+  static const Color accent    = Color(0xFFF57F17);
+
+  // 页面背景色：浅灰色，比纯白更柔和
+  // 페이지 배경색: 연한 회색, 순백보다 부드러운 느낌
+  static const Color bg        = Color(0xFFF5F5F5);
+
+  // 卡片背景色：纯白，与背景形成层次感
+  // 카드 배경색: 순백, 배경과 레이어 구분을 위해 사용
+  static const Color card      = Colors.white;
+
+  // 主要文字色：深灰近黑，用于标题、名称等重要文字
+  // 주요 텍스트 색상: 짙은 회색(거의 검정), 제목·이름 등 중요 텍스트에 사용
+  static const Color textMain  = Color(0xFF212121);
+
+  // 次要文字色：中灰，用于描述、说明等辅助文字
+  // 보조 텍스트 색상: 중간 회색, 설명·부가 정보 등 보조 텍스트에 사용
+  static const Color textSub   = Color(0xFF757575);
+
+  // 提示文字色：浅灰，用于韩文副标题、评分等次要信息
+  // 힌트 텍스트 색상: 연한 회색, 한국어 부제목·평점 등 부가 정보에 사용
+  static const Color textHint  = Color(0xFFBDBDBD);
+
+  // 边框色：极浅灰，用于卡片边框、分隔线
+  // 테두리 색상: 매우 연한 회색, 카드 테두리·구분선에 사용
+  static const Color border    = Color(0xFFE0E0E0);
+
+  // 封面渐变色（起点/终点）：用于顶部Hero图片的绿色渐变遮罩
+  // 커버 그라디언트 색상 (시작/끝): 상단 Hero 이미지의 녹색 그라디언트 오버레이에 사용
+  static const Color heroStart = Color(0xFF1B5E20);
+  static const Color heroEnd   = Color(0xFF66BB6A);
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -169,6 +233,26 @@ const List<TourStep> tourSteps = [
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // 根组件（带底部导航）/ 루트 위젯 (하단 탭 네비게이션 포함)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//
+// 这是整个临沂页面的"总指挥"组件。
+// 이것은 임기 페이지 전체의 "총괄" 위젯입니다.
+//
+// 职责 / 역할:
+//   1. 管理底部导航栏的选中状态（用 _currentIndex 记录当前Tab）
+//      하단 탭바의 선택 상태 관리 (_currentIndex로 현재 탭 기록)
+//   2. 根据 _currentIndex 切换显示不同的子页面
+//      _currentIndex에 따라 다른 서브 페이지로 전환
+//   3. StatefulWidget：有状态组件，因为需要记住"当前选中哪个Tab"
+//      StatefulWidget: 상태 있는 위젯, "현재 어느 탭이 선택됐는지" 기억 필요
+//
+// 结构图 / 구조도:
+//   LinyiPage
+//   ├── BottomNavigationBar（底部导航 / 하단 탭바）
+//   └── body: _pages[_currentIndex]（当前页面 / 현재 페이지）
+//       ├── [0] _IntroPage       家乡介绍 / 고향 소개
+//       ├── [1] _AttractionsPage 旅游景点 / 관광지
+//       ├── [2] _FoodsPage       代表美食 / 대표 음식
+//       └── [3] _TourRoutePage   推荐路线 / 추천 코스
 
 class LinyiPage extends StatefulWidget {
   const LinyiPage({super.key});
@@ -235,6 +319,25 @@ class _LinyiPageState extends State<LinyiPage> {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // 页面一：家乡介绍 / 페이지1: 고향 소개
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//
+// 内容区块（从上到下）/ 내용 섹션 (위에서 아래로):
+//   ① SliverAppBar   — 顶部封面大图（蒙山照片+渐变遮罩+标语）
+//                      상단 커버 이미지 (몽산 사진+그라디언트+슬로건)
+//   ② 城市介绍        — 临沂文字简介（中韩双语）/ 도시 소개 텍스트 (중한)
+//   ③ 文化特色        — 4个绿色标签（革命/书法/民俗/山水）
+//                      4개 녹색 태그 (혁명/서예/민속/산수)
+//   ④ 基本信息        — 彩色大数字卡（人口/面积/建城史/GDP）
+//                      컬러 큰 숫자 카드 (인구/면적/역사/GDP)
+//   ⑤ 城市名片        — 横向滚动荣誉标签 / 가로 스크롤 명예 태그
+//   ⑥ 发展实力        — 3列彩色卡片（物流/交通/商贸）
+//                      3열 컬러 카드 (물류/교통/상업)
+//   ⑦ 人文底蕴        — 带图标列表（名人/革命/生态/矿产）
+//                      아이콘 목록 (명인/혁명/생태/광물)
+//   ⑧ AI使用内容      — 绿色渐变卡片，说明AI辅助内容
+//                      녹색 그라디언트 카드, AI 활용 내용 설명
+//
+// 使用 CustomScrollView + SliverAppBar 实现滚动时标题栏固定效果
+// CustomScrollView + SliverAppBar로 스크롤 시 타이틀바 고정 효과 구현
 
 class _IntroPage extends StatelessWidget {
   const _IntroPage();
@@ -479,6 +582,15 @@ class _IntroPage extends StatelessWidget {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // 页面二：旅游景点 / 페이지2: 관광지
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//
+// 显示 attractions 列表中的4个景点，每个景点用 _AttractionCard 渲染
+// attractions 목록의 4개 관광지를 표시, 각각 _AttractionCard로 렌더링
+//
+// 景点列表（4个）/ 관광지 목록 (4개):
+//   1. 蒙山风景区    — 图片：mengshan.jpg
+//   2. 沂蒙红嫂纪念馆 — 图片：hosao.jpg
+//   3. 临沂竹泉村    — 图片：zhuquan.jpg
+//   4. 王羲之故居    — 图片：wangxizhi.jpg
 
 class _AttractionsPage extends StatelessWidget {
   const _AttractionsPage();
@@ -514,6 +626,15 @@ class _AttractionsPage extends StatelessWidget {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // 页面三：代表美食 / 페이지3: 대표 음식
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//
+// 显示 foods 列表中的4种美食，每种用 _FoodCard 渲染
+// foods 목록의 4가지 음식을 표시, 각각 _FoodCard로 렌더링
+//
+// 美食列表（4种）/ 음식 목록 (4가지):
+//   1. 糁汤   산탕     — 图片：santangsantang.jpg
+//   2. 炒鸡   볶음닭   — 图片：chaoji.jpg
+//   3. 煎饼   전병     — 图片：jianbing.jpg
+//   4. 八宝豆豉 팔보두시 — 图片：douchi.jpg
 
 class _FoodsPage extends StatelessWidget {
   const _FoodsPage();
@@ -548,6 +669,19 @@ class _FoodsPage extends StatelessWidget {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // 页面四：推荐路线 / 페이지4: 추천 코스
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//
+// 以时间轴（Timeline）形式展示6个行程节点
+// 타임라인 형식으로 6개 일정 노드를 표시
+//
+// 时间轴原理 / 타임라인 원리:
+//   每个节点 = 时间(橙色) + 绿色圆点 + 连接线 + 地点+活动(双语)
+//   각 노드 = 시간(오렌지) + 녹색 점 + 연결선 + 장소+활동(이중언어)
+//   最后一个节点不显示连接线（isLast: true）
+//   마지막 노드에는 연결선 없음 (isLast: true)
+//
+// 行程安排（6节点）/ 일정 (6노드):
+//   08:00 糁汤老店 → 09:30 王羲之故居 → 12:00 临沂老街
+//   14:00 竹泉村  → 17:00 蒙山风景区  → 19:00 临沂夜市
 
 class _TourRoutePage extends StatelessWidget {
   const _TourRoutePage();
